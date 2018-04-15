@@ -1,0 +1,83 @@
+html
+  head
+    meta(charset='”utf-8″')
+    meta(name='”viewport”', content='”width=device-width,', initial-scale='1,', shrink-to-fit='no”')
+    title= 'Web Student'
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', rel='stylesheet')
+    script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js')
+
+  body
+  nav.navbar.navbar-expand-sm.pull-sm-left(style='\
+margin-left: 80px;\
+')  
+    form(action='/login', method='GET')
+                  input.btn.btn-secondary(type='submit' value='Log in')
+    form(action='/user', method='GET')
+                      input.btn.btn-secondary(type='submit' value='Create New User')              
+    form(action='/logout', method='GET')
+                  input.btn.btn-secondary(type='submit' value='Log Out')              
+    form(action='/input', method='GET')
+                  input.btn.btn-secondary(type='submit' value='Input New Student')
+    form(action='/students/statistics/2018', method='GET')
+                  input.btn.btn-secondary(type='submit' value='Get Students Gender Statistics')             
+    .card-body
+          .table-responsive
+           nav.navbar.navbar-expand-sm.pull-sm-left
+            table.table
+              form(action='/search', method='GET')
+                .form-row
+                  .col-5
+                    .form-group
+                      input.form-control(type='text', placeholder='Keyword', name='keyword')
+                  .col-3
+                    .form-group
+                      select.form-control(name='opt')
+                        option(value='student_id') Student ID
+                        option(value='first_name') First name
+                        option(value='place_of_birth') POB
+                  .col-3
+                    .form-group
+                      select.form-control(name='sortBy')
+                        option(value='DESC') DESC
+                        option(value='ASC') ASC
+                  .col-1
+                    input.btn.btn-dark(type='submit', value='Search')
+  .container-full
+    h1.text-center Student List
+    table.table
+      thead.thead-dark
+         tr
+          th= 'ID'
+          th= 'First Name'
+          th= 'Middle Name'
+          th= 'Last Name'
+          th= 'Gender'
+          th= 'Place of Birth'
+          th= 'Date of Birth'
+          th= 'Phone Number'
+          th= 'Email Address'
+          th= 'Admission Date'
+          th= 'Action'
+      for student in data
+        tr
+          td= student.student_id
+          td
+              a.student.first_name(href='/students/'+student.student_id) #{student.first_name}
+          td= student.middle_name
+          td= student.last_name
+          td= student.gender
+          td= student.place_of_birth
+          td= moment(student.date_of_birth).format('DD-MM-YYYY')
+          td= student.phone_number
+          td= student.email_address
+          td= moment(student.date_time).format('DD-MM-YYYY')
+          td
+           form.form-inline(action='/delete/'+student.student_id, method="POST" )
+                    button.btn.btn-info(type="submit", role='button', onclick="return confirm('are you sure want to delete ?')") Delete
+        p.table-center #{notif} 
+
+        
