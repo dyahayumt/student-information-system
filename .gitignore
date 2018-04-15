@@ -5,6 +5,7 @@ npm-debug.log
 package-lock.json
 student_info.json
 student.sql
+student_info.sql
 coba.pug
 config/
 sendgrid.env
